@@ -21,8 +21,12 @@ public class UpdateCommand implements Command {
 
 			String serverPrefix = Main.serverPrefixes.getOrDefault(server, Main.defaultPrefix);
 			if (Main.checkForCommand(messageContent, "update", server, api) && e.getMessage().getAuthor().isBotOwner()) {
-				new ProcessBuilder("echo test>lol").start();
-				Thread.sleep(3000);
+				if (OsUtils.isWindows()) {
+					//new ProcessBuilder("cmd", "/c", "echo", "test").inheritIO().start();
+				} else {
+					new ProcessBuilder("bash", "-c", "screen", "../update.sh").start();
+				}
+
 				System.exit(0);
 			}
 		}

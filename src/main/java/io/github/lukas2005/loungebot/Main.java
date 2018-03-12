@@ -16,6 +16,9 @@ import java.io.BufferedReader;
 import java.io.FileReader;
 import java.time.format.DateTimeFormatter;
 import java.util.*;
+import org.slf4j.LoggerFactory;
+import ch.qos.logback.classic.Level;
+import ch.qos.logback.classic.Logger;
 
 public class Main {
 
@@ -92,6 +95,9 @@ public class Main {
 		funModule.addCommand(new MemeCommand());
 		funModule.addCommand(new MemeDnaCommand());
 		funModule.addCommand(new RainbowRolesCommand());
+
+		Logger root = (Logger) LoggerFactory.getLogger(Logger.ROOT_LOGGER_NAME);
+		root.setLevel(Level.OFF);
 	}
 
 	public static boolean checkForCommand(String messageContents, String command, Server server, DiscordApi api) {
