@@ -21,12 +21,7 @@ public class UpdateCommand implements Command {
 
 			String serverPrefix = Main.serverPrefixes.getOrDefault(server, Main.defaultPrefix);
 			if (Main.checkForCommand(messageContent, "update", server, api) && e.getMessage().getAuthor().isBotOwner()) {
-				new Thread(() -> {
-					try {
-						new ProcessBuilder("screen", "-S", "LoungeBot", "sh").start();
-					} catch (IOException e1) {
-					}
-				}, "Update Thread").setDaemon(true);
+				new ProcessBuilder("screen", "-S", "LoungeBot", "sh").start();
 				//Runtime.getRuntime().exit(0);
 			}
 		}
