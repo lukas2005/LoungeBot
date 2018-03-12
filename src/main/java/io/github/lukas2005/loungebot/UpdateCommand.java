@@ -27,7 +27,7 @@ public class UpdateCommand implements Command {
 					new ProcessBuilder("sh", "-c", "screen", "../update.sh").start();
 				}
 
-				System.exit(0);
+				//System.exit(0);
 			}
 		}
 	}
