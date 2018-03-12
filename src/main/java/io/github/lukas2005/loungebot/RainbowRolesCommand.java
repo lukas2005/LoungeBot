@@ -14,6 +14,7 @@ import java.util.HashMap;
 public class RainbowRolesCommand implements Command {
 
 	public static HashMap<Role, Color[]> rainbowRoles = new HashMap<>();
+	public static HashMap<Role, Thread> rainbowRoleThreads = new HashMap<>();
 
 	public static File rolesFile = new File("rainbowRoles.txt");
 
@@ -79,26 +80,38 @@ public class RainbowRolesCommand implements Command {
 
 					rainbowRoles.put(role, colors);
 					startThread(role, colors, amountOfSteps);
-					if (rolesFile.exists()) {
-						rolesFile.delete();
-						rolesFile.createNewFile();
-					} else {
-						rolesFile.createNewFile();
-					}
-					BufferedWriter writer = new BufferedWriter(new FileWriter(rolesFile));
-					for (Role r : rainbowRoles.keySet()) {
-						Color[] colors1 = rainbowRoles.get(r);
-						writer.append(r.getIdAsString())
-								.append(":")
-								.append(String.valueOf(colors1[0].getRGB()))
-								.append(",")
-								.append(String.valueOf(colors1[1].getRGB()));
-						writer.newLine();
-					}
-					writer.close();
+					saveRolesFile();
+				}
+				if ((Main.checkForCommand(messageContent, "rr remove", server, api))) {
+					Role role = server.getRolesByName(messageContentSplit[messageContentSplit.length-1]).get(0);
+
+					rainbowRoles.remove(role);
+					rainbowRoleThreads.get(role).interrupt();
+					rainbowRoleThreads.remove(role);
+					saveRolesFile();
 				}
 			}
 		}
+	}
+
+	public static void saveRolesFile() throws Exception {
+		if (rolesFile.exists()) {
+			rolesFile.delete();
+			rolesFile.createNewFile();
+		} else {
+			rolesFile.createNewFile();
+		}
+		BufferedWriter writer = new BufferedWriter(new FileWriter(rolesFile));
+		for (Role r : rainbowRoles.keySet()) {
+			Color[] colors1 = rainbowRoles.get(r);
+			writer.append(r.getIdAsString())
+					.append(":")
+					.append(String.valueOf(colors1[0].getRGB()))
+					.append(",")
+					.append(String.valueOf(colors1[1].getRGB()));
+			writer.newLine();
+		}
+		writer.close();
 	}
 
 	public static void startThread(Role role, Color[] colors, double amountOfSteps) throws IllegalArgumentException {
@@ -106,7 +119,7 @@ public class RainbowRolesCommand implements Command {
 		Color startColor = colors[0];
 		Color endColor = colors[1];
 
-		new Thread(() -> {
+		Thread t = new Thread(() -> {
 			double diff = amountOfSteps;
 
 			boolean sswitch = false;
@@ -136,6 +149,10 @@ public class RainbowRolesCommand implements Command {
 					Thread.currentThread().interrupt();
 				}
 			}
-		},"Rainbow Role Thread for Role: "+role.getName()).start();
+		}, "Rainbow Role Thread for Role: "+role.getName());
+
+		t.start();
+
+		rainbowRoleThreads.put(role, t);
 	}
 }
