@@ -19,7 +19,7 @@ public class UpdateCommand implements Command {
 
 			String serverPrefix = Main.serverPrefixes.getOrDefault(server, Main.defaultPrefix);
 			if (Main.checkForCommand(messageContent, "update", server, api)) {
-				Runtime.getRuntime().exec("../update.sh");
+				Runtime.getRuntime().exec("screen -S LoungeBot ../update.sh");
 				Runtime.getRuntime().exit(0);
 			}
 		}
