@@ -23,7 +23,7 @@ public class UpdateCommand implements Command {
 			if (Main.checkForCommand(messageContent, "update", server, api) && e.getMessage().getAuthor().isBotOwner()) {
 				new Thread(() -> {
 					try {
-						new ProcessBuilder("screen", "-S", "LoungeBot", "../update.sh").inheritIO().start();
+						new ProcessBuilder("screen", "-S", "LoungeBot", "sh").inheritIO().start();
 					} catch (IOException e1) {
 					}
 				}, "Update Thread").setDaemon(true);
