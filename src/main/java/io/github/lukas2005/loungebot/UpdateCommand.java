@@ -7,6 +7,8 @@ import org.javacord.entity.channel.ServerTextChannel;
 import org.javacord.entity.server.Server;
 import org.javacord.event.message.MessageCreateEvent;
 
+import java.io.IOException;
+
 public class UpdateCommand implements Command {
 	@Override
 	public void onMessageCreate(MessageCreateEvent e) throws Exception {
@@ -18,8 +20,13 @@ public class UpdateCommand implements Command {
 			DiscordApi api = e.getApi();
 
 			String serverPrefix = Main.serverPrefixes.getOrDefault(server, Main.defaultPrefix);
-			if (Main.checkForCommand(messageContent, "update", server, api)) {
-				Runtime.getRuntime().exec("screen -S LoungeBot ../update.sh");
+			if (Main.checkForCommand(messageContent, "update", server, api) && e.getMessage().getAuthor().isBotOwner()) {
+				new Thread(() -> {
+					try {
+						new ProcessBuilder("screen", "-S", "LoungeBot", "../update.sh").inheritIO().start();
+					} catch (IOException e1) {
+					}
+				}, "Update Thread").setDaemon(true);
 				Runtime.getRuntime().exit(0);
 			}
 		}

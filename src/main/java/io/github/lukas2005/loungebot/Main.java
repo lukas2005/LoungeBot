@@ -90,6 +90,7 @@ public class Main {
 
 		funModule = new Module(api);
 		funModule.addCommand(new MemeCommand());
+		funModule.addCommand(new MemeDnaCommand());
 		funModule.addCommand(new RainbowRolesCommand());
 	}
 

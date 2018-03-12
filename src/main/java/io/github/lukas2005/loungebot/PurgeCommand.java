@@ -18,7 +18,7 @@ public class PurgeCommand implements Command {
 			String[] messageContentSplit = messageContent.split(" ");
 			DiscordApi api = e.getApi();
 
-			if ((Main.checkForCommand(messageContent, "purge", server, api))) {
+			if ((Main.checkForCommand(messageContent, "purge", server, api)) && e.getMessage().getAuthor().isBotOwner() || e.getMessage().getAuthor().canManageMessagesInTextChannel()) {
 				int amount;
 				try {
 					amount = Integer.parseInt(messageContentSplit[messageContentSplit.length-1]);
