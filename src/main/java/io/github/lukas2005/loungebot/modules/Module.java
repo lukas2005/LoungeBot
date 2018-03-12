@@ -37,7 +37,11 @@ public class Module implements MessageCreateListener {
 			Server server = e.getServer().get();
 			//if (enabledServers.contains(server)) {
 				for (Command command : commands) {
-					command.onMessageCreate(e);
+					try {
+						command.onMessageCreate(e);
+					} catch (Exception e1) {
+						e1.printStackTrace();
+					}
 				}
 			//}
 		}

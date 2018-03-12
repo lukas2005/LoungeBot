@@ -1,0 +1,33 @@
+package io.github.lukas2005.loungebot;
+
+import io.github.lukas2005.loungebot.modules.Command;
+import org.javacord.DiscordApi;
+import org.javacord.entity.channel.ServerTextChannel;
+import org.javacord.entity.message.Message;
+import org.javacord.entity.message.MessageSet;
+import org.javacord.entity.server.Server;
+import org.javacord.event.message.MessageCreateEvent;
+
+public class PurgeCommand implements Command {
+	@Override
+	public void onMessageCreate(MessageCreateEvent e) {
+		if (e.getServer().isPresent()) {
+			Server server = e.getServer().get();
+			ServerTextChannel textChannel = e.getMessage().getServerTextChannel().get();
+			String messageContent = e.getMessage().getContent();
+			String[] messageContentSplit = messageContent.split(" ");
+			DiscordApi api = e.getApi();
+
+			if ((Main.checkForCommand(messageContent, "purge", server, api))) {
+				int amount;
+				try {
+					amount = Integer.parseInt(messageContentSplit[messageContentSplit.length-1]);
+				} catch (Exception e1) {
+					return;
+				}
+				MessageSet set = textChannel.getMessages(amount).join();
+				set.deleteAll();
+			}
+		}
+	}
+}
