@@ -14,6 +14,7 @@ import java.util.HashMap;
 public class RainbowRolesCommand implements Command {
 
 	public static HashMap<Role, Color[]> rainbowRoles = new HashMap<>();
+	public static HashMap<Role, Integer> rainbowRolesSteps = new HashMap<>();
 	public static HashMap<Role, Thread> rainbowRoleThreads = new HashMap<>();
 
 	public static File rolesFile = new File("rainbowRoles.txt");
@@ -40,6 +41,7 @@ public class RainbowRolesCommand implements Command {
 
 					if (role != null) {
 						rainbowRoles.put(role, colors1);
+						rainbowRolesSteps.put(role, amountOfSteps);
 						startThread(role, colors1, amountOfSteps);
 					}
 
@@ -79,6 +81,7 @@ public class RainbowRolesCommand implements Command {
 					Color[] colors = new Color[]{new Color(startR, startG, startB), new Color(endR, endG, endB)};
 
 					rainbowRoles.put(role, colors);
+					rainbowRolesSteps.put(role, amountOfSteps);
 					startThread(role, colors, amountOfSteps);
 					saveRolesFile();
 				}
@@ -108,7 +111,9 @@ public class RainbowRolesCommand implements Command {
 					.append(":")
 					.append(String.valueOf(colors1[0].getRGB()))
 					.append(",")
-					.append(String.valueOf(colors1[1].getRGB()));
+					.append(String.valueOf(colors1[1].getRGB()))
+					.append(":")
+					.append(String.valueOf(rainbowRolesSteps.get(r)));
 			writer.newLine();
 		}
 		writer.close();
