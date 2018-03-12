@@ -24,7 +24,7 @@ public class UpdateCommand implements Command {
 				if (OsUtils.isWindows()) {
 					//new ProcessBuilder("cmd", "/c", "echo", "test").inheritIO().start();
 				} else {
-					new ProcessBuilder("bash", "-c", "../update.sh").start();
+					new ProcessBuilder("../update.sh").start();
 				}
 
 				System.exit(0);
