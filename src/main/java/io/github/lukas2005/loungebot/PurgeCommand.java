@@ -7,6 +7,7 @@ import org.javacord.entity.message.Message;
 import org.javacord.entity.message.MessageSet;
 import org.javacord.entity.server.Server;
 import org.javacord.event.message.MessageCreateEvent;
+import org.javacord.util.logging.ExceptionLogger;
 
 public class PurgeCommand implements Command {
 	@Override
@@ -25,8 +26,7 @@ public class PurgeCommand implements Command {
 				} catch (Exception e1) {
 					return;
 				}
-				MessageSet set = textChannel.getMessages(amount).join();
-				set.deleteAll();
+				textChannel.getMessages(amount).thenCompose(MessageSet::deleteAll).exceptionally(ExceptionLogger.get());
 			}
 		}
 	}
