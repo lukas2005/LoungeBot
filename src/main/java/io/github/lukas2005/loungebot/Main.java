@@ -81,6 +81,7 @@ public class Main {
 		settingsModule.addCommand(new PrefixCommand());
 		settingsModule.addCommand(new HelpCommand());
 		settingsModule.addCommand(new UpdateCommand());
+		settingsModule.addCommand(new UpdateAvatarCommand());
 
 		toolsModule = new Module(api);
 		toolsModule.addCommand(new ServerInfoCommand());
