@@ -2,12 +2,9 @@ package io.github.lukas2005.loungebot;
 
 import io.github.lukas2005.loungebot.modules.Command;
 import org.javacord.DiscordApi;
-import org.javacord.entity.ApplicationInfo;
 import org.javacord.entity.channel.ServerTextChannel;
 import org.javacord.entity.server.Server;
 import org.javacord.event.message.MessageCreateEvent;
-
-import java.io.IOException;
 
 public class UpdateCommand implements Command {
 	@Override
@@ -27,7 +24,7 @@ public class UpdateCommand implements Command {
 					new ProcessBuilder("bash", "-c", "screen", "-d", "-m", "../update.sh").inheritIO().start();
 				}
 
-				//System.exit(0);
+				System.exit(0);
 			}
 		}
 	}
