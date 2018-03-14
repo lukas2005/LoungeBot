@@ -21,10 +21,10 @@ public class UpdateCommand implements Command {
 				if (OsUtils.isWindows()) {
 					//new ProcessBuilder("cmd", "/c", "echo", "test").inheritIO().start();
 				} else {
-					new ProcessBuilder("/user/bin/screen", "-d", "-m", "../update.sh").start();
+					new ProcessBuilder("/bin/sh", "-c", "screen", "-dm", "/bin/sh").inheritIO().start();
 				}
 
-				System.exit(0);
+				//System.exit(0);
 			}
 		}
 	}
