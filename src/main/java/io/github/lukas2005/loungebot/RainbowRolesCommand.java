@@ -3,6 +3,7 @@ package io.github.lukas2005.loungebot;
 import io.github.lukas2005.loungebot.modules.Command;
 import org.javacord.DiscordApi;
 import org.javacord.entity.channel.ServerTextChannel;
+import org.javacord.entity.message.embed.EmbedBuilder;
 import org.javacord.entity.permission.Role;
 import org.javacord.entity.server.Server;
 import org.javacord.event.message.MessageCreateEvent;
@@ -67,31 +68,38 @@ public class RainbowRolesCommand implements Command {
 			if ((Main.checkForCommand(messageContent, "rr", server, api))) {
 				if ((Main.checkForCommand(messageContent, "rr add", server, api))) {
 					Role role = server.getRolesByName(messageContentSplit[messageContentSplit.length-8]).get(0);
+					if (!rainbowRoles.containsKey(role)) {
 
-					int amountOfSteps = Integer.parseInt(messageContentSplit[messageContentSplit.length-7]);
+						int amountOfSteps = Integer.parseInt(messageContentSplit[messageContentSplit.length - 7]);
 
-					int startR = Integer.parseInt(messageContentSplit[messageContentSplit.length-6]);
-					int startG = Integer.parseInt(messageContentSplit[messageContentSplit.length-5]);
-					int startB = Integer.parseInt(messageContentSplit[messageContentSplit.length-4]);
+						int startR = Integer.parseInt(messageContentSplit[messageContentSplit.length - 6]);
+						int startG = Integer.parseInt(messageContentSplit[messageContentSplit.length - 5]);
+						int startB = Integer.parseInt(messageContentSplit[messageContentSplit.length - 4]);
 
-					int endR = Integer.parseInt(messageContentSplit[messageContentSplit.length-3]);
-					int endG = Integer.parseInt(messageContentSplit[messageContentSplit.length-2]);
-					int endB = Integer.parseInt(messageContentSplit[messageContentSplit.length-1]);
+						int endR = Integer.parseInt(messageContentSplit[messageContentSplit.length - 3]);
+						int endG = Integer.parseInt(messageContentSplit[messageContentSplit.length - 2]);
+						int endB = Integer.parseInt(messageContentSplit[messageContentSplit.length - 1]);
 
-					Color[] colors = new Color[]{new Color(startR, startG, startB), new Color(endR, endG, endB)};
+						Color[] colors = new Color[]{new Color(startR, startG, startB), new Color(endR, endG, endB)};
 
-					rainbowRoles.put(role, colors);
-					rainbowRolesSteps.put(role, amountOfSteps);
-					startThread(role, colors, amountOfSteps);
-					saveRolesFile();
+						rainbowRoles.put(role, colors);
+						rainbowRolesSteps.put(role, amountOfSteps);
+						startThread(role, colors, amountOfSteps);
+						saveRolesFile();
+					} else {
+						textChannel.sendMessage("Remove the role using "+serverPrefix+"rr remove [role name] first!");
+					}
 				}
 				if ((Main.checkForCommand(messageContent, "rr remove", server, api))) {
 					Role role = server.getRolesByName(messageContentSplit[messageContentSplit.length-1]).get(0);
-
-					rainbowRoles.remove(role);
-					rainbowRoleThreads.get(role).interrupt();
-					rainbowRoleThreads.remove(role);
-					saveRolesFile();
+					if (rainbowRoles.containsKey(role)) {
+						rainbowRoles.remove(role);
+						rainbowRoleThreads.get(role).interrupt();
+						rainbowRoleThreads.remove(role);
+						saveRolesFile();
+					} else {
+						textChannel.sendMessage("This role isn't a rainbow role!");
+					}
 				}
 				return true;
 			}
