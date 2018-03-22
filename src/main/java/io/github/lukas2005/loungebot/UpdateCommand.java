@@ -8,7 +8,7 @@ import org.javacord.event.message.MessageCreateEvent;
 
 public class UpdateCommand implements Command {
 	@Override
-	public void onMessageCreate(MessageCreateEvent e) throws Exception {
+	public boolean onMessageCreate(MessageCreateEvent e) throws Exception {
 		if (e.getServer().isPresent()) {
 			Server server = e.getServer().get();
 			ServerTextChannel textChannel = e.getMessage().getServerTextChannel().get();
@@ -25,7 +25,9 @@ public class UpdateCommand implements Command {
 				}
 
 				//System.exit(0);
+				return true;
 			}
 		}
+		return false;
 	}
 }

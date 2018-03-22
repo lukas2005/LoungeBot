@@ -4,7 +4,6 @@ import io.github.lukas2005.loungebot.modules.Command;
 import org.javacord.DiscordApi;
 import org.javacord.entity.channel.ServerTextChannel;
 import org.javacord.entity.server.Server;
-import org.javacord.entity.user.User;
 import org.javacord.event.message.MessageCreateEvent;
 
 import java.net.MalformedURLException;
@@ -12,7 +11,7 @@ import java.net.URL;
 
 public class UpdateAvatarCommand implements Command {
 	@Override
-	public void onMessageCreate(MessageCreateEvent e) throws Exception {
+	public boolean onMessageCreate(MessageCreateEvent e) throws Exception {
 		if (e.getServer().isPresent()) {
 			Server server = e.getServer().get();
 			ServerTextChannel textChannel = e.getMessage().getServerTextChannel().get();
@@ -28,7 +27,9 @@ public class UpdateAvatarCommand implements Command {
 						textChannel.sendMessage("Sorry but you provided a Malformed url");
 					}
 				}
+				return true;
 			}
 		}
+		return false;
 	}
 }

@@ -4,6 +4,6 @@ import org.javacord.event.message.MessageCreateEvent;
 
 public interface Command {
 
-	public void onMessageCreate(MessageCreateEvent e) throws Exception;
+	boolean onMessageCreate(MessageCreateEvent e) throws Exception;
 
 }

@@ -3,7 +3,6 @@ package io.github.lukas2005.loungebot;
 import io.github.lukas2005.loungebot.modules.Command;
 import org.javacord.DiscordApi;
 import org.javacord.entity.channel.ServerTextChannel;
-import org.javacord.entity.message.MessageSet;
 import org.javacord.entity.server.Server;
 import org.javacord.event.message.MessageCreateEvent;
 
@@ -38,7 +37,7 @@ public class MemeDnaCommand implements Command {
 			"(   ͡° ͜ʖ ͡° ) (   ͡° ͜ʖ ͡° )\n";
 
 	@Override
-	public void onMessageCreate(MessageCreateEvent e) throws Exception {
+	public boolean onMessageCreate(MessageCreateEvent e) throws Exception {
 		if (e.getServer().isPresent()) {
 			Server server = e.getServer().get();
 			ServerTextChannel textChannel = e.getMessage().getServerTextChannel().get();
@@ -47,7 +46,9 @@ public class MemeDnaCommand implements Command {
 
 			if ((Main.checkForCommand(messageContent, "memedna", server, api))) {
 				textChannel.sendMessage(memeDNA);
+				return true;
 			}
 		}
+		return false;
 	}
 }

@@ -28,7 +28,7 @@ public class MemeCommand implements Command {
 	}
 
 	@Override
-	public void onMessageCreate(MessageCreateEvent e) throws Exception {
+	public boolean onMessageCreate(MessageCreateEvent e) throws Exception {
 		if (e.getServer().isPresent()) {
 			Server server = e.getServer().get();
 			ServerTextChannel textChannel = e.getMessage().getServerTextChannel().get();
@@ -74,7 +74,9 @@ public class MemeCommand implements Command {
 				//embed.setDescription();
 
 				textChannel.sendMessage(embed);
+				return true;
 			}
 		}
+		return false;
 	}
 }

@@ -3,27 +3,19 @@ package io.github.lukas2005.loungebot;
 import io.github.lukas2005.loungebot.modules.Command;
 import org.javacord.DiscordApi;
 import org.javacord.entity.channel.ServerTextChannel;
-import org.javacord.entity.message.Message;
 import org.javacord.entity.message.embed.EmbedBuilder;
 import org.javacord.entity.permission.Role;
 import org.javacord.entity.server.Server;
 import org.javacord.entity.user.User;
 import org.javacord.event.message.MessageCreateEvent;
 
-import java.text.DateFormat;
 import java.time.ZoneId;
-import java.time.format.DateTimeFormatter;
-import java.time.temporal.Temporal;
-import java.time.temporal.TemporalField;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
-import java.util.Locale;
-import java.util.concurrent.CompletableFuture;
 
 public class UserInfoCommand implements Command {
 	@Override
-	public void onMessageCreate(MessageCreateEvent e) {
+	public boolean onMessageCreate(MessageCreateEvent e) {
 		if (e.getServer().isPresent()) {
 			Server server = e.getServer().get();
 			ServerTextChannel textChannel = e.getMessage().getServerTextChannel().get();
@@ -54,7 +46,9 @@ public class UserInfoCommand implements Command {
 				embed.addField("Roles: ", roleString.toString());
 
 				textChannel.sendMessage(embed);
+				return true;
 			}
 		}
+		return false;
 	}
 }

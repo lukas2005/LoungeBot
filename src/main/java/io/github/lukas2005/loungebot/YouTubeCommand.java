@@ -12,7 +12,6 @@ import org.javacord.entity.channel.ServerTextChannel;
 import org.javacord.entity.server.Server;
 import org.javacord.event.message.MessageCreateEvent;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 
 public class YouTubeCommand implements Command {
@@ -29,7 +28,7 @@ public class YouTubeCommand implements Command {
 	}
 
 	@Override
-	public void onMessageCreate(MessageCreateEvent e) throws Exception {
+	public boolean onMessageCreate(MessageCreateEvent e) throws Exception {
 		if (e.getServer().isPresent()) {
 			Server server = e.getServer().get();
 			ServerTextChannel textChannel = e.getMessage().getServerTextChannel().get();
@@ -49,7 +48,9 @@ public class YouTubeCommand implements Command {
 					Channel channel = channelResponse.getItems().get(0);
 					watchedChannels.put(textChannel, channel);
 				}
+				return true;
 			}
 		}
+		return false;
 	}
 }

@@ -1,8 +1,5 @@
 package io.github.lukas2005.loungebot;
 
-import com.google.api.services.youtube.YouTube;
-import com.google.api.services.youtube.model.Channel;
-import com.google.api.services.youtube.model.ChannelListResponse;
 import io.github.lukas2005.loungebot.modules.Command;
 import org.javacord.DiscordApi;
 import org.javacord.entity.channel.ServerTextChannel;
@@ -16,7 +13,7 @@ public class RedditCommand implements Command {
 	public static HashMap<ServerTextChannel, String> subredditWatchList = new HashMap<>();
 
 	@Override
-	public void onMessageCreate(MessageCreateEvent e) throws Exception {
+	public boolean onMessageCreate(MessageCreateEvent e) throws Exception {
 		if (e.getServer().isPresent()) {
 			Server server = e.getServer().get();
 			ServerTextChannel textChannel = e.getMessage().getServerTextChannel().get();
@@ -40,7 +37,9 @@ public class RedditCommand implements Command {
 						}
 					},"Subreddit " +messageContentSplit[messageContentSplit.length-1]+" Polling Thread");
 				}
+				return true;
 			}
 		}
+		return false;
 	}
 }

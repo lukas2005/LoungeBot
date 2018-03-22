@@ -98,11 +98,11 @@ public class Main {
 		funModule.addCommand(new RainbowRolesCommand());
 
 		Logger root = (Logger) LoggerFactory.getLogger(Logger.ROOT_LOGGER_NAME);
-		root.setLevel(Level.OFF);
+		//root.setLevel(Level.OFF);
 	}
 
 	public static boolean checkForCommand(String messageContents, String command, Server server, DiscordApi api) {
-		return ((serverPrefixes.containsKey(server) && messageContents.startsWith(serverPrefixes.get(server))) || messageContents.startsWith(Main.defaultPrefix)) && (messageContents.contains(mentionTag+" "+command) || messageContents.contains(command));
+		return messageContents.startsWith(serverPrefixes.getOrDefault(server, defaultPrefix)+command) || messageContents.startsWith(mentionTag+" "+command);
 	}
 
 }

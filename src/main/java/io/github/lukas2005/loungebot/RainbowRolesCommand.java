@@ -54,7 +54,7 @@ public class RainbowRolesCommand implements Command {
 	}
 
 	@Override
-	public void onMessageCreate(MessageCreateEvent e) throws Exception {
+	public boolean onMessageCreate(MessageCreateEvent e) throws Exception {
 		if (e.getServer().isPresent()) {
 			Server server = e.getServer().get();
 			ServerTextChannel textChannel = e.getMessage().getServerTextChannel().get();
@@ -93,8 +93,10 @@ public class RainbowRolesCommand implements Command {
 					rainbowRoleThreads.remove(role);
 					saveRolesFile();
 				}
+				return true;
 			}
 		}
+		return false;
 	}
 
 	public static void saveRolesFile() throws Exception {

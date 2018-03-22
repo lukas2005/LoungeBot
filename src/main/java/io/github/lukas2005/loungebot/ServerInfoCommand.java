@@ -9,7 +9,7 @@ import org.javacord.event.message.MessageCreateEvent;
 
 public class ServerInfoCommand implements Command {
 	@Override
-	public void onMessageCreate(MessageCreateEvent e) {
+	public boolean onMessageCreate(MessageCreateEvent e) {
 		if (e.getServer().isPresent()) {
 			Server server = e.getServer().get();
 			ServerTextChannel textChannel = e.getMessage().getServerTextChannel().get();
@@ -20,7 +20,9 @@ public class ServerInfoCommand implements Command {
 				builder.addField("Members: ", String.valueOf(server.getMemberCount()));
 
 				textChannel.sendMessage(builder);
+				return true;
 			}
 		}
+		return false;
 	}
 }

@@ -4,7 +4,6 @@ import io.github.lukas2005.loungebot.modules.Command;
 import org.javacord.DiscordApi;
 import org.javacord.entity.channel.ServerTextChannel;
 import org.javacord.entity.message.Message;
-import org.javacord.entity.message.MessageSet;
 import org.javacord.entity.message.embed.EmbedBuilder;
 import org.javacord.entity.server.Server;
 import org.javacord.event.message.MessageCreateEvent;
@@ -13,7 +12,7 @@ import java.util.concurrent.CompletableFuture;
 
 public class HelpCommand implements Command {
 	@Override
-	public void onMessageCreate(MessageCreateEvent e) {
+	public boolean onMessageCreate(MessageCreateEvent e) {
 		if (e.getServer().isPresent()) {
 			Server server = e.getServer().get();
 			ServerTextChannel textChannel = e.getMessage().getServerTextChannel().get();
@@ -42,7 +41,9 @@ public class HelpCommand implements Command {
 				embed.addField("Moderation:", serverPrefix+"purge [number] // Remove set amount of messages");
 
 				e.getMessage().getAuthor().asUser().ifPresent(user -> user.sendMessage(embed));
+				return true;
 			}
 		}
+		return false;
 	}
 }
