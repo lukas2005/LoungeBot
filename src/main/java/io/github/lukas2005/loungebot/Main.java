@@ -1,5 +1,6 @@
 package io.github.lukas2005.loungebot;
 
+import ch.qos.logback.classic.Logger;
 import com.github.jreddit.oauth.RedditOAuthAgent;
 import com.github.jreddit.oauth.RedditToken;
 import com.github.jreddit.oauth.app.RedditScriptApp;
@@ -11,14 +12,12 @@ import org.javacord.DiscordApi;
 import org.javacord.DiscordApiBuilder;
 import org.javacord.entity.message.embed.EmbedBuilder;
 import org.javacord.entity.server.Server;
+import org.slf4j.LoggerFactory;
 
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.time.format.DateTimeFormatter;
 import java.util.*;
-import org.slf4j.LoggerFactory;
-import ch.qos.logback.classic.Level;
-import ch.qos.logback.classic.Logger;
 
 public class Main {
 
@@ -102,7 +101,7 @@ public class Main {
 	}
 
 	public static boolean checkForCommand(String messageContents, String command, Server server, DiscordApi api) {
-		return messageContents.startsWith(serverPrefixes.getOrDefault(server, defaultPrefix)+command) || messageContents.startsWith(mentionTag+" "+command);
+		return messageContents.matches(serverPrefixes.getOrDefault(server, defaultPrefix).replace(".", "\\.")+command+" *.*") || messageContents.matches(mentionTag+" "+command+" *.*");
 	}
 
 }

@@ -3,7 +3,6 @@ package io.github.lukas2005.loungebot;
 import io.github.lukas2005.loungebot.modules.Command;
 import org.javacord.DiscordApi;
 import org.javacord.entity.channel.ServerTextChannel;
-import org.javacord.entity.message.embed.EmbedBuilder;
 import org.javacord.entity.permission.Role;
 import org.javacord.entity.server.Server;
 import org.javacord.event.message.MessageCreateEvent;
@@ -65,7 +64,7 @@ public class RainbowRolesCommand implements Command {
 
 			String serverPrefix = Main.serverPrefixes.getOrDefault(server, Main.defaultPrefix);
 
-			if ((Main.checkForCommand(messageContent, "rr", server, api))) {
+			if ((Main.checkForCommand(messageContent, "rr", server, api)) && e.getMessage().getAuthor().canManageMessagesInTextChannel()) {
 				if ((Main.checkForCommand(messageContent, "rr add", server, api))) {
 					Role role = server.getRolesByName(messageContentSplit[messageContentSplit.length-8]).get(0);
 					if (!rainbowRoles.containsKey(role)) {
